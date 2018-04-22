@@ -5,6 +5,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import ij.IJ;
 import io.humble.video.Codec;
 import io.humble.video.Encoder;
 import io.humble.video.MediaPacket;
@@ -93,8 +94,25 @@ public class VideoHandle {
 		if (bitrate != 0) {
 			encoder.setProperty("b", bitrate);
 		}
-
-		final PixelFormat.Type pixelformat = PixelFormat.Type.PIX_FMT_YUV420P;
+		
+		//GIF codel doesn't support YUV420P as the pixel format
+		//TODO: Check each codec supports YUV420P and if not change to something else. 
+		final PixelFormat.Type pixelformat;
+		if(codec.getID() == Codec.ID.CODEC_ID_GIF) {
+			pixelformat = codec.getSupportedVideoPixelFormat(5);
+		
+		}
+		else {
+			pixelformat = PixelFormat.Type.PIX_FMT_YUV420P;
+		}
+		
+		IJ.log("Codec is:" + codec);
+		IJ.log("GIF Codec is:" + Codec.findEncodingCodec(Codec.ID.CODEC_ID_GIF));
+		IJ.log("Pixel format is:" + pixelformat);
+		
+		
+		
+	
 		encoder.setPixelFormat(pixelformat);
 		encoder.setTimeBase(frameRate);
 
