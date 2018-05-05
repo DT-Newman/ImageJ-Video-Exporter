@@ -99,11 +99,14 @@ public class VideoHandle {
 		//TODO: Check each codec supports YUV420P and if not change to something else. 
 		final PixelFormat.Type pixelformat;
 		if(codec.getID() == Codec.ID.CODEC_ID_GIF) {
-			pixelformat = codec.getSupportedVideoPixelFormat(5);
+			pixelformat = codec.getSupportedVideoPixelFormat(1);
+			//pixelformat = PixelFormat.Type.PIX_FMT_RGB24;
+			
 		
 		}
 		else {
-			pixelformat = PixelFormat.Type.PIX_FMT_YUV420P;
+			//pixelformat = PixelFormat.Type.PIX_FMT_YUV420P;
+			pixelformat = PixelFormat.Type.PIX_FMT_RGB24;
 		}
 		
 		IJ.log("Codec is:" + codec);
