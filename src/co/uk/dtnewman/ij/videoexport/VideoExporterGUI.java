@@ -74,8 +74,9 @@ public class VideoExporterGUI extends JFrame {
 
 		public void run() {
 			float currentProgressAmount = 0;
-
+			image = image.flatten();
 			int stacksize = image.getStackSize();
+			IJ.log("");
 			currentTask.setText("Copying Imagestack");
 			ImageStack imagestack = image.getImageStack();
 
