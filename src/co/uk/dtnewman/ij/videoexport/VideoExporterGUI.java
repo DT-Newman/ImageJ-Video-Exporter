@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
+import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
 
 public class VideoExporterGUI extends JFrame {
@@ -66,6 +67,7 @@ public class VideoExporterGUI extends JFrame {
 	private class exportThread implements Runnable {
 		private VideoHandle videoHandle;
 		private ImagePlus image;
+		
 
 		public exportThread(VideoHandle videoHandle, ImagePlus image) {
 			this.videoHandle = videoHandle;
@@ -74,11 +76,19 @@ public class VideoExporterGUI extends JFrame {
 
 		public void run() {
 			float currentProgressAmount = 0;
-			image = image.flatten();
-			int stacksize = image.getStackSize();
-			IJ.log("");
+			
+			
+			//I imagine the below block of code is inefficient in terms of memory usage... should check!
+			//TODO: Make each frame of the video on a frame by frame basis.
+			
+			
+			ImagePlus workingImage = image.duplicate();
+			ImageConverter ic = new ImageConverter(workingImage);
+			currentTask.setText("Converting to RGB image");
+			ic.convertToRGB();
 			currentTask.setText("Copying Imagestack");
-			ImageStack imagestack = image.getImageStack();
+			int stacksize = workingImage.getStackSize();
+			ImageStack imagestack = workingImage.getImageStack();
 
 			try {
 

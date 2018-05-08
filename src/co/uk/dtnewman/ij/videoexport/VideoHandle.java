@@ -13,6 +13,7 @@ import io.humble.video.MediaPicture;
 import io.humble.video.Muxer;
 import io.humble.video.MuxerFormat;
 import io.humble.video.PixelFormat;
+import io.humble.video.PixelFormat.Type;
 import io.humble.video.Rational;
 import io.humble.video.awt.MediaPictureConverter;
 import io.humble.video.awt.MediaPictureConverterFactory;
@@ -33,6 +34,7 @@ public class VideoHandle {
 	private String codecname = null;
 	private Boolean antialias;
 	private Rational frameRate;
+	private Type pixelFormat;
 
 	public void setHeight(int height) {
 		this.height = height;
@@ -73,6 +75,10 @@ public class VideoHandle {
 	public void setBitRate(int bitrate) {
 		this.bitrate = bitrate;
 	}
+	
+	public void setPixelFormat(PixelFormat.Type pixelFormat) {
+		this.pixelFormat = pixelFormat; 
+	}
 
 	public void createVideoStream() throws InterruptedException, IOException {
 
@@ -96,27 +102,15 @@ public class VideoHandle {
 		}
 		
 		//GIF codel doesn't support YUV420P as the pixel format
-		//TODO: Check each codec supports YUV420P and if not change to something else. 
-		final PixelFormat.Type pixelformat;
-		if(codec.getID() == Codec.ID.CODEC_ID_GIF) {
-			pixelformat = codec.getSupportedVideoPixelFormat(1);
-			//pixelformat = PixelFormat.Type.PIX_FMT_RGB24;
-			
+		//TODO: Check each codec supports the set pixel format and if not thrown an error/change pixel format.
 		
-		}
-		else {
-			//pixelformat = PixelFormat.Type.PIX_FMT_YUV420P;
-			pixelformat = PixelFormat.Type.PIX_FMT_RGB24;
+		if(pixelFormat == null) {
+			pixelFormat = PixelFormat.Type.PIX_FMT_YUV420P;
+
 		}
 		
-		IJ.log("Codec is:" + codec);
-		IJ.log("GIF Codec is:" + Codec.findEncodingCodec(Codec.ID.CODEC_ID_GIF));
-		IJ.log("Pixel format is:" + pixelformat);
-		
-		
-		
-	
-		encoder.setPixelFormat(pixelformat);
+
+		encoder.setPixelFormat(pixelFormat);
 		encoder.setTimeBase(frameRate);
 
 		if (format.getFlag(MuxerFormat.Flag.GLOBAL_HEADER))
@@ -128,7 +122,7 @@ public class VideoHandle {
 
 		packet = MediaPacket.make();
 
-		picture = MediaPicture.make(encoder.getWidth(), encoder.getHeight(), pixelformat);
+		picture = MediaPicture.make(encoder.getWidth(), encoder.getHeight(), pixelFormat);
 		picture.setTimeBase(frameRate);
 
 	}
