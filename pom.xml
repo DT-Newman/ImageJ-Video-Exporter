@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>co.uk.dtnewman.ij</groupId>
   <artifactId>ImageJ-Video-Exporter</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.6-SNAPSHOT</version>
   <name>ImageJ Video Exporter</name>
   <build>
 
@@ -43,6 +43,14 @@
     <groupId>io.scif</groupId>
     <artifactId>scifio-jai-imageio</artifactId>
     <version>1.1.1</version>
+</dependency>
+
+<dependency>
+    <groupId>io.humble.video</groupId>
+    <artifactId>humble-video</artifactId>
+    <version>0.2.1</version>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/libs/humble-video-all-0.2.1.jar</systemPath>
 </dependency>
 		
 	</dependencies>
