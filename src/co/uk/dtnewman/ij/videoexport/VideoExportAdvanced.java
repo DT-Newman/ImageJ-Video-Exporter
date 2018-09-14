@@ -23,20 +23,28 @@ import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 
 import ij.IJ;
-import io.humble.video.Codec;
+import ij.ImagePlus;
+import ij.WindowManager;
+import ij.plugin.PlugIn;
 
-@Plugin(type = Command.class, menuPath ="Plugins>DN Tools>Video Export>Info")
-public class VideoExportInfo implements Command {
-
+@Plugin(type = Command.class, menuPath ="Plugins>DN Tools>Video Export>Advanced")
+public class VideoExportAdvanced implements Command {
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		Codec codec = Codec.findEncodingCodec(Codec.ID.CODEC_ID_GIF);
-		int noofpixel = codec.getNumSupportedVideoPixelFormats();
-		
-		for(int i = 0; i < noofpixel; i++) {
-			IJ.log("Pixel fomat "+i+" : "+codec.getSupportedVideoPixelFormat(i));
+		try {
+			ImagePlus image = WindowManager.getCurrentImage();
+			if (image == null) {
+				IJ.error("There is currently no active image open");
+			}
+			else {
+			VideoExportWindowAdvanced.create(image);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			IJ.log("error: " + e.getMessage());
 		}
 	}
+
+	
 
 }

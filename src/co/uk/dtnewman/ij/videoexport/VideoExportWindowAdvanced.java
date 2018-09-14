@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2018, Daniel Newman.  All rights reserved.
+ *   
+ * This file is part of IJ-Video-Exporter.
+ *
+ * IJ-Video-Exporter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * IJ-Video-Exporter is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with IJ-Video-Exporter.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package co.uk.dtnewman.ij.videoexport;
 
 import java.awt.EventQueue;
@@ -32,7 +51,7 @@ import io.humble.video.Codec.ID;
 import io.humble.video.MediaDescriptor;
 import io.humble.video.MuxerFormat;
 
-public class VideoExportWindow extends JFrame {
+public class VideoExportWindowAdvanced extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel preLoadStatus;
@@ -61,7 +80,7 @@ public class VideoExportWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VideoExportWindow frame = new VideoExportWindow(image);
+					VideoExportWindowAdvanced frame = new VideoExportWindowAdvanced(image);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,7 +92,7 @@ public class VideoExportWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VideoExportWindow(ImagePlus image) {
+	public VideoExportWindowAdvanced(ImagePlus image) {
 
 		setTitle("Daniel's Video Exporter");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -227,7 +246,7 @@ public class VideoExportWindow extends JFrame {
 				// fc.setFileSelectionMode(JFileChooser.SAVE_DIALOG);
 				String formatExtension = "" + comboBox.getSelectedItem();
 				fc.setFileFilter(new FileNameExtensionFilter(formatExtension + " file", formatExtension));
-				int returnval = fc.showSaveDialog(VideoExportWindow.this);
+				int returnval = fc.showSaveDialog(VideoExportWindowAdvanced.this);
 				String outputFilePath;
 				if (fc.getSelectedFile().isFile() && VideoExportGeneric
 						.getExtension(fc.getSelectedFile().getAbsolutePath()).equals(formatExtension)) {
@@ -244,7 +263,7 @@ public class VideoExportWindow extends JFrame {
 				}
 
 				if (outputfile.exists()) {
-					int dialogResult = JOptionPane.showConfirmDialog(VideoExportWindow.this,
+					int dialogResult = JOptionPane.showConfirmDialog(VideoExportWindowAdvanced.this,
 							"This file already exists, overwrite?");
 					if (dialogResult != JOptionPane.YES_OPTION) {
 						return;
