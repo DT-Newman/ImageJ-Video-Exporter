@@ -39,7 +39,7 @@ import io.humble.video.awt.MediaPictureConverterFactory;
 
 public class VideoHandle {
 	private int width, height;
-	private Object interpolation;
+	private Object interpolation = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
 	private String outFile;
 	private long firstTimeStamp = -1;
 	private MediaPacket packet;
@@ -51,7 +51,7 @@ public class VideoHandle {
 	private int bitrate = 0;
 	private String formatname = null;
 	private String codecname = null;
-	private Boolean antialias;
+	private Boolean antialias = false;
 	private Rational frameRate;
 	private Type pixelFormat;
 
@@ -110,7 +110,7 @@ public class VideoHandle {
 		} else {
 			codec = Codec.findEncodingCodec(format.getDefaultVideoCodecId());
 		}
-
+		
 		encoder = Encoder.make(codec);
 		encoder.setWidth(width);
 		encoder.setHeight(height);
@@ -125,7 +125,7 @@ public class VideoHandle {
 		
 		if(pixelFormat == null) {
 			pixelFormat = PixelFormat.Type.PIX_FMT_YUV420P;
-
+			
 		}
 		
 

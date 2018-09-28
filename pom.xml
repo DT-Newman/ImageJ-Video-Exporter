@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>co.uk.dtnewman.ij</groupId>
   <artifactId>ImageJ-Video-Exporter</artifactId>
-  <version>0.0.6-SNAPSHOT</version>
+  <version>0.0.8-SNAPSHOT</version>
   <name>ImageJ Video Exporter</name>
   <build>
 
@@ -32,6 +32,8 @@
 			<id>imagej.public</id>
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
+		
+		
 	</repositories>
 		<dependencies>
 		<dependency>
@@ -46,12 +48,10 @@
 </dependency>
 
 <dependency>
-    <groupId>io.humble.video</groupId>
-    <artifactId>humble-video</artifactId>
-    <version>0.2.1</version>
-    <scope>system</scope>
-    <systemPath>${project.basedir}/libs/humble-video-all-0.2.1.jar</systemPath>
-</dependency>
+      <groupId>io.humble</groupId>
+      <artifactId>humble-video-all</artifactId>
+      <version>0.2.1</version>
+    </dependency>
 		
 	</dependencies>
 </project>

@@ -19,9 +19,15 @@
 
 package co.uk.dtnewman.ij.videoexport;
 
-public class VideoExportGeneric {
+import java.util.Arrays;
 
-	public static String[] formatArray = new String[] { "avi", "gif", "mov", "mp4", "mkv", "wmv" };
+import io.humble.video.Codec;
+
+public class VideoExportGeneric {
+	
+
+	public static String[] formatArray = new String[] { "avi", "mov", "mp4", "mkv", "wmv" };
+	public static Codec.ID[] simpleApprovedCodecs = new Codec.ID[] {Codec.ID.CODEC_ID_H264, Codec.ID.CODEC_ID_RAWVIDEO, Codec.ID.CODEC_ID_JPEG2000, Codec.ID.CODEC_ID_PNG, Codec.ID.CODEC_ID_MSMPEG4V1, Codec.ID.CODEC_ID_MPEG4 };
 
 	public static String getExtension(String filename) {
 		String extension = null;
@@ -29,6 +35,16 @@ public class VideoExportGeneric {
 			extension = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
 		}
 		return extension;
+	}
+	
+	public static boolean isApprovedCodec(Codec.ID codecID) {
+		if(Arrays.asList(simpleApprovedCodecs).contains(codecID)) {
+			return true;
+		}
+		else {
+		
+		return false;
+		}
 	}
 
 }

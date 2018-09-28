@@ -54,13 +54,12 @@ import io.humble.video.MediaDescriptor;
 import io.humble.video.MuxerFormat;
 import io.humble.video.PixelFormat;
 
-public class VideoExportWindowAdvanced extends JFrame {
+public class VideoExportWindowSimple extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel preLoadStatus;
-	private JLabel lblHeight;
 	private JLabel lblCodec;
-	private JComboBox<String> comboBox, selectionCodec, comboPixelFormat;
+	private JComboBox<String> comboBox, selectionCodec;
 	private static int stacksize, width, height;
 	private boolean hwlock = false;
 	private JButton btnExport;
@@ -69,9 +68,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 	private String[] interpolationNameArray = new String[] { "Nearest Neighbour", "Bilnear", "Bicubic" };
 	private Object[] interpolationArray = new Object[] { RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR,
 			RenderingHints.VALUE_INTERPOLATION_BILINEAR, RenderingHints.VALUE_INTERPOLATION_BICUBIC };
-	private int defaultCodecIndex, defaultPixelFormatIndex = 0;
 	private ID[] idArray;
-	private io.humble.video.PixelFormat.Type[] pixelTypeArray;
 	
 
 	/**
@@ -86,7 +83,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VideoExportWindowAdvanced frame = new VideoExportWindowAdvanced(image);
+					VideoExportWindowSimple frame = new VideoExportWindowSimple(image);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -98,11 +95,11 @@ public class VideoExportWindowAdvanced extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VideoExportWindowAdvanced(ImagePlus image) {
+	public VideoExportWindowSimple(ImagePlus image) {
 
 		setTitle("Daniel's Video Exporter");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 474, 356);
+		setBounds(100, 100, 325, 225);
 
 		NumberFormat format = NumberFormat.getInstance();
 		format.setGroupingUsed(false);
@@ -120,21 +117,8 @@ public class VideoExportWindowAdvanced extends JFrame {
 		contentPane.setLayout(null);
 
 		preLoadStatus = new JLabel("Preload Status");
-		preLoadStatus.setBounds(5, 314, 302, 14);
+		preLoadStatus.setBounds(0, 159, 302, 14);
 		contentPane.add(preLoadStatus);
-
-		JLabel lblNewLabel = new JLabel("Width");
-		lblNewLabel.setBounds(5, 45, 46, 14);
-		contentPane.add(lblNewLabel);
-
-		lblHeight = new JLabel("Height");
-		lblHeight.setBounds(5, 14, 46, 14);
-		contentPane.add(lblHeight);
-
-		JCheckBox chckbxAspectRatio = new JCheckBox("Lock Aspect Ratio");
-		chckbxAspectRatio.setSelected(true);
-		chckbxAspectRatio.setBounds(226, 25, 180, 23);
-		contentPane.add(chckbxAspectRatio);
 
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 70, 458, 4);
@@ -144,116 +128,42 @@ public class VideoExportWindowAdvanced extends JFrame {
 		separator_1.setBounds(0, 276, 458, 5);
 		contentPane.add(separator_1);
 
-		JFormattedTextField inputHeight = new JFormattedTextField(integerFormatter);
-		inputHeight.setBounds(70, 11, 99, 20);
-		inputHeight.setValue(height);
-		contentPane.add(inputHeight);
-
-		JFormattedTextField inputWidth = new JFormattedTextField(integerFormatter);
-		inputWidth.setBounds(70, 42, 99, 20);
-		inputWidth.setValue(width);
-		contentPane.add(inputWidth);
-
 		comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<>(co.uk.dtnewman.ij.videoexport.VideoExportGeneric.formatArray));
-		comboBox.setBounds(90, 82, 200, 20);
+		comboBox.setBounds(90, 22, 200, 20);
 		comboBox.setSelectedIndex(3);
 		contentPane.add(comboBox);
 
 		JLabel lblFormat = new JLabel("Format");
-		lblFormat.setBounds(5, 85, 46, 14);
+		lblFormat.setBounds(5, 25, 46, 14);
 		contentPane.add(lblFormat);
 
 		lblCodec = new JLabel("Codec");
-		lblCodec.setBounds(5, 115, 46, 14);
+		lblCodec.setBounds(5, 56, 46, 14);
 		contentPane.add(lblCodec);
 
 		JLabel lblFramerate = new JLabel("Framerate");
-		lblFramerate.setBounds(5, 178, 67, 14);
+		lblFramerate.setBounds(5, 89, 67, 14);
 		contentPane.add(lblFramerate);
-
-		JLabel lblBitrate = new JLabel("Bitrate");
-		lblBitrate.setBounds(5, 206, 46, 14);
-		contentPane.add(lblBitrate);
 
 		JFormattedTextField framerateText = new JFormattedTextField(integerFormatter);
 		framerateText.setText("5");
-		framerateText.setBounds(90, 175, 200, 20);
+		framerateText.setBounds(90, 86, 200, 20);
 		contentPane.add(framerateText);
 
-		JFormattedTextField bitrateText = new JFormattedTextField(integerFormatter);
-		bitrateText.setBounds(90, 203, 200, 20);
-		contentPane.add(bitrateText);
-
 		btnExport = new JButton("Export");
-		btnExport.setBounds(369, 283, 89, 23);
+		btnExport.setBounds(201, 124, 89, 23);
 		contentPane.add(btnExport);
 
 		selectionCodec = new JComboBox<String>();
 		selectionCodec.setModel(new DefaultComboBoxModel<>(codecArray));
-		selectionCodec.setBounds(90, 113, 200, 20);
+		selectionCodec.setBounds(90, 54, 200, 20);
 		contentPane.add(selectionCodec);
-		
-		comboPixelFormat = new JComboBox<String>();
-		comboPixelFormat.setModel(new DefaultComboBoxModel<>(pixelFormatArray));
-		comboPixelFormat.setBounds(90, 141, 200, 20);
-		contentPane.add(comboPixelFormat);
-
-		JLabel lblInterpolation = new JLabel("Interpolation");
-		lblInterpolation.setBounds(6, 235, 75, 14);
-		contentPane.add(lblInterpolation);
-
-		JComboBox<String> comboInterpolation = new JComboBox<String>();
-		comboInterpolation.setModel(new DefaultComboBoxModel<>(interpolationNameArray));
-		comboInterpolation.setBounds(91, 232, 200, 20);
-		contentPane.add(comboInterpolation);
-
-		JCheckBox chckbxAntialiasing = new JCheckBox("Anti-Aliasing");
-		chckbxAntialiasing.setBounds(91, 259, 97, 23);
-		contentPane.add(chckbxAntialiasing);
-		
-		
-		JLabel lblPixelFormat = new JLabel("Pixel Format");
-		lblPixelFormat.setBounds(5, 148, 89, 14);
-		contentPane.add(lblPixelFormat);
 
 		// Run preload operation on background thread
 		Thread backgroundPreload = new Thread(this::backgroundPreload);
 		backgroundPreload.start();
-
-		PropertyChangeListener listenInputHeight = new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (chckbxAspectRatio.isSelected()) {
-					if (!hwlock) {
-						hwlock = true;
-						float specifiedHeight = convertToFloat(inputHeight.getValue());
-						int newWidth = (int) (width * (specifiedHeight / height));
-						inputWidth.setValue(newWidth);
-						hwlock = false;
-					}
-
-				}
-
-			}
-		};
-		inputHeight.addPropertyChangeListener(listenInputHeight);
-
-		PropertyChangeListener listenInputWidth = new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (chckbxAspectRatio.isSelected()) {
-					if (!hwlock) {
-						hwlock = true;
-						float specifiedWidth = convertToFloat(inputWidth.getValue());
-						int newHeight = (int) (height * (specifiedWidth / width));
-						inputHeight.setValue(newHeight);
-						hwlock = false;
-					}
-				}
-			}
-		};
-		inputWidth.addPropertyChangeListener(listenInputWidth);
+		
 
 		btnExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -262,7 +172,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 				// fc.setFileSelectionMode(JFileChooser.SAVE_DIALOG);
 				String formatExtension = "" + comboBox.getSelectedItem();
 				fc.setFileFilter(new FileNameExtensionFilter(formatExtension + " file", formatExtension));
-				int returnval = fc.showSaveDialog(VideoExportWindowAdvanced.this);
+				int returnval = fc.showSaveDialog(VideoExportWindowSimple.this);
 				String outputFilePath;
 				if (fc.getSelectedFile().isFile() && VideoExportGeneric
 						.getExtension(fc.getSelectedFile().getAbsolutePath()).equals(formatExtension)) {
@@ -279,7 +189,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 				}
 
 				if (outputfile.exists()) {
-					int dialogResult = JOptionPane.showConfirmDialog(VideoExportWindowAdvanced.this,
+					int dialogResult = JOptionPane.showConfirmDialog(VideoExportWindowSimple.this,
 							"This file already exists, overwrite?");
 					if (dialogResult != JOptionPane.YES_OPTION) {
 						return;
@@ -287,15 +197,14 @@ public class VideoExportWindowAdvanced extends JFrame {
 				}
 
 				// Export Video Now
-				if (!isPosInteger(inputWidth.getText()) || !isPosInteger(inputHeight.getText())
-						|| !isPosInteger(framerateText.getText())) {
+				if (!isPosInteger(framerateText.getText())) {
 					IJ.log("Height, Width, bitrate and framerate must be positive integers if set");
 					return;
 				}
 
 				int framerate = Integer.parseInt(framerateText.getText());
-				int widthint = Integer.parseInt(inputWidth.getText());
-				int heightint = Integer.parseInt(inputHeight.getText());
+				int widthint = width;
+				int heightint = height;
 
 				if (widthint < 1 || heightint < 1) {
 					IJ.log("Width and height must be greater than 0");
@@ -305,14 +214,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 				VideoHandle videoHandle = new VideoHandle();
 				videoHandle.setHeight(heightint);
 				videoHandle.setWidth(widthint);
-				String bitratestr = bitrateText.getText();
-
-				if (!bitratestr.equals("")) {
-					int bitrateint = Integer.parseInt(bitrateText.getText());
-					if (bitrateint != 0) {
-						videoHandle.setBitRate(bitrateint);
-					}
-				}
+				
 
 				if (framerate < 1) {
 					framerate = 5;
@@ -320,11 +222,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 				videoHandle.setFrameRate(framerate);
 				videoHandle.setOutFile(outputfile.getAbsolutePath());
 				videoHandle.setCodecname(codecArray[selectionCodec.getSelectedIndex()]);
-				videoHandle.setAntialias(chckbxAntialiasing.isSelected());
-				videoHandle.setInterpolation(interpolationArray[comboInterpolation.getSelectedIndex()]);
-				
-				PixelFormat.Type pixelFormat = pixelTypeArray[comboPixelFormat.getSelectedIndex()];
-				videoHandle.setPixelFormat(pixelFormat);
+			
 
 				VideoExporterGUI.exportVideo(videoHandle, image);
 
@@ -351,7 +249,6 @@ public class VideoExportWindowAdvanced extends JFrame {
 		Collection<MuxerFormat> muxerformats = MuxerFormat.getFormats();
 		preLoadStatus.setText("Preload Complete!");
 		updateCodecSelection();
-		updatePixelFormats();
 		btnExport.setEnabled(true);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -362,29 +259,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 
 	}
 	
-	public void updatePixelFormats() {
-		
-		
-	 Codec codec = Codec.findEncodingCodecByName(selectionCodec.getItemAt(selectionCodec.getSelectedIndex()));
-	 
-	 
-	 
-		pixelTypeArray = PixelFormat.Type.values();
-		int size = pixelTypeArray.length;
-		pixelFormatArray = new String[size];
-
-		for(int i = 0; i < size; i++) {
-			pixelFormatArray[i] = pixelTypeArray[i].toString();
-			if(pixelFormatArray[i] == io.humble.video.PixelFormat.Type.PIX_FMT_YUV420P.name()) {
-				defaultPixelFormatIndex = i; 
-			}
-		}
-		
-		comboPixelFormat.setModel(new DefaultComboBoxModel<>(pixelFormatArray));
-		comboPixelFormat.setSelectedIndex(defaultPixelFormatIndex);
-		
 	
-	}
 
 	public void updateCodecSelection() {
 
@@ -392,11 +267,11 @@ public class VideoExportWindowAdvanced extends JFrame {
 				"something." + comboBox.getItemAt(comboBox.getSelectedIndex()), null);
 		Collection<ID> supportedCodecs = format.getSupportedCodecs();
 		idArray = supportedCodecs.stream().map(Codec::findEncodingCodec).filter(c -> c != null)
-				.filter(c -> c.getType() == MediaDescriptor.Type.MEDIA_VIDEO)
+				.filter(c -> VideoExportGeneric.isApprovedCodec(c.getID()))
 				.sorted((c1, c2) -> c1.getName().compareTo(c2.getName())).map(Codec::getID).toArray(ID[]::new);
 
 		String defaultcodecName = Codec.findEncodingCodec(format.getDefaultVideoCodecId()).getName();
-
+		int defaultCodecIndex = 0;
 		int codecNumber = idArray.length;
 		if (codecNumber == 0) {
 			codecArray = new String[1];
