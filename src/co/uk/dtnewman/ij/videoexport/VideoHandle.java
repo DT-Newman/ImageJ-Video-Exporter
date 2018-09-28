@@ -122,10 +122,29 @@ public class VideoHandle {
 		
 		//GIF codel doesn't support YUV420P as the pixel format
 		//TODO: Check each codec supports the set pixel format and if not thrown an error/change pixel format.
-		
 		if(pixelFormat == null) {
-			pixelFormat = PixelFormat.Type.PIX_FMT_YUV420P;
+			int noOfSupportedFormats = codec.getNumSupportedVideoPixelFormats();
+			if(noOfSupportedFormats == 0) {
+				
+				pixelFormat = PixelFormat.Type.PIX_FMT_YUV420P;
+			}
+			else {
+			for(int i = 0; i < noOfSupportedFormats; i++) {
+				try {
+					if(codec.getSupportedVideoPixelFormat(i) == PixelFormat.Type.PIX_FMT_YUV420P) {
+						pixelFormat = PixelFormat.Type.PIX_FMT_YUV420P;
+						break;
+					}
+				}
+				catch(IllegalArgumentException ex) {
+					continue;
+				}
+			}
 			
+			if(pixelFormat == null) {
+				pixelFormat = codec.getSupportedVideoPixelFormat(0);
+			}
+		}
 		}
 		
 

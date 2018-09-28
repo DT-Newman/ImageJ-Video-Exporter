@@ -183,6 +183,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 
 		JFormattedTextField bitrateText = new JFormattedTextField(integerFormatter);
 		bitrateText.setBounds(90, 203, 200, 20);
+		bitrateText.setText("0");
 		contentPane.add(bitrateText);
 
 		btnExport = new JButton("Export");
@@ -209,7 +210,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 		contentPane.add(comboInterpolation);
 
 		JCheckBox chckbxAntialiasing = new JCheckBox("Anti-Aliasing");
-		chckbxAntialiasing.setBounds(91, 259, 97, 23);
+		chckbxAntialiasing.setBounds(91, 259, 151, 23);
 		contentPane.add(chckbxAntialiasing);
 		
 		
@@ -359,26 +360,47 @@ public class VideoExportWindowAdvanced extends JFrame {
 			}
 		});
 		
+		selectionCodec.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updatePixelFormats();
+			}
+		});
+		
 
 	}
 	
 	public void updatePixelFormats() {
 		
 		
-	 Codec codec = Codec.findEncodingCodecByName(selectionCodec.getItemAt(selectionCodec.getSelectedIndex()));
+	 Codec codec = Codec.findEncodingCodecByName(codecArray[selectionCodec.getSelectedIndex()]);
+	 int noofpixel = codec.getNumSupportedVideoPixelFormats();
+	 if(noofpixel > 0) {
+	 ArrayList<PixelFormat.Type> alist=new ArrayList<PixelFormat.Type>();
+		for(int i = 0; i < noofpixel; i++) {
+			
+			try {
+				alist.add(codec.getSupportedVideoPixelFormat(i));
+				}
+				catch(IllegalArgumentException ex) {
+					continue;
+				}
+		}
 	 
-	 
-	 
-		pixelTypeArray = PixelFormat.Type.values();
+		pixelTypeArray = alist.toArray(new PixelFormat.Type[alist.size()]);
 		int size = pixelTypeArray.length;
 		pixelFormatArray = new String[size];
-
 		for(int i = 0; i < size; i++) {
 			pixelFormatArray[i] = pixelTypeArray[i].toString();
 			if(pixelFormatArray[i] == io.humble.video.PixelFormat.Type.PIX_FMT_YUV420P.name()) {
 				defaultPixelFormatIndex = i; 
 			}
 		}
+	 }
+	 else {
+		 pixelTypeArray = new PixelFormat.Type[]{io.humble.video.PixelFormat.Type.PIX_FMT_YUV420P};
+		 pixelFormatArray = new String[]{io.humble.video.PixelFormat.Type.PIX_FMT_YUV420P.name()};
+		 defaultPixelFormatIndex = 0;
+	 }
 		
 		comboPixelFormat.setModel(new DefaultComboBoxModel<>(pixelFormatArray));
 		comboPixelFormat.setSelectedIndex(defaultPixelFormatIndex);
@@ -416,6 +438,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 		}
 		selectionCodec.setModel(new DefaultComboBoxModel<>(codecArray));
 		selectionCodec.setSelectedIndex(defaultCodecIndex);
+		
 
 	}
 }
