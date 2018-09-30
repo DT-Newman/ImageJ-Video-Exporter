@@ -22,7 +22,7 @@ mvn install
 
 # Installing
 
-This plugin requires the https://github.com/artclarke/humble-video Library to be included in your plugins folder. The required files are provided in the libs folder (you can just copy all files in this folder to you plugin directory).
+This plugin requires the https://github.com/artclarke/humble-video Library to be included in your plugins folder. 
 
 Generic Library:
 
