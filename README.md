@@ -13,6 +13,12 @@ There is a simple export option, which provides a smaller sub-set of options.
 
 Development largely occurs as a result of me dogfooding this plugin, adding features that I need at the time and fixing it when it breaks on me. So please let me know of any bugs or suggestions!
 
+# Building
+ImageJ-Video-Exporter can be build via maven, simply run the following command in the root directory.
+
+```
+mvn install
+```
 
 # Installing
 
