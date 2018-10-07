@@ -61,6 +61,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 	private JLabel lblHeight;
 	private JLabel lblCodec;
 	private JComboBox<String> comboBox, selectionCodec, comboPixelFormat;
+	private JCheckBox chckbxForceOddDimensions;
 	private static int stacksize, width, height;
 	private boolean hwlock = false;
 	private JButton btnExport;
@@ -133,7 +134,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 
 		JCheckBox chckbxAspectRatio = new JCheckBox("Lock Aspect Ratio");
 		chckbxAspectRatio.setSelected(true);
-		chckbxAspectRatio.setBounds(226, 25, 180, 23);
+		chckbxAspectRatio.setBounds(226, 9, 180, 23);
 		contentPane.add(chckbxAspectRatio);
 
 		JSeparator separator = new JSeparator();
@@ -217,6 +218,10 @@ public class VideoExportWindowAdvanced extends JFrame {
 		JLabel lblPixelFormat = new JLabel("Pixel Format");
 		lblPixelFormat.setBounds(5, 148, 89, 14);
 		contentPane.add(lblPixelFormat);
+		
+		chckbxForceOddDimensions = new JCheckBox("Force Odd Dimensions");
+		chckbxForceOddDimensions.setBounds(226, 40, 180, 23);
+		contentPane.add(chckbxForceOddDimensions);
 
 		// Run preload operation on background thread
 		Thread backgroundPreload = new Thread(this::backgroundPreload);
@@ -326,6 +331,8 @@ public class VideoExportWindowAdvanced extends JFrame {
 				
 				PixelFormat.Type pixelFormat = pixelTypeArray[comboPixelFormat.getSelectedIndex()];
 				videoHandle.setPixelFormat(pixelFormat);
+				
+				videoHandle.setForcedOdd(chckbxForceOddDimensions.isSelected());
 
 				VideoExporterGUI.exportVideo(videoHandle, image);
 
@@ -385,7 +392,6 @@ public class VideoExportWindowAdvanced extends JFrame {
 					continue;
 				}
 		}
-	 
 		pixelTypeArray = alist.toArray(new PixelFormat.Type[alist.size()]);
 		int size = pixelTypeArray.length;
 		pixelFormatArray = new String[size];

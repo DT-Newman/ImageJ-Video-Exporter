@@ -37,6 +37,10 @@ public class VideoExportGeneric {
 		return extension;
 	}
 	
+	public static boolean isEven(int number) {
+		return (number % 2) == 0;
+	}
+	
 	public static boolean isApprovedCodec(Codec.ID codecID) {
 		if(Arrays.asList(simpleApprovedCodecs).contains(codecID)) {
 			return true;

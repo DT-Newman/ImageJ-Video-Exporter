@@ -52,11 +52,23 @@ public class VideoHandle {
 	private String formatname = null;
 	private String codecname = null;
 	private Boolean antialias = false;
+	private Boolean forcedOdd = false;
 	private Rational frameRate;
 	private Type pixelFormat;
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+	public int getHeight(){
+		return this.height;
+	}
+	
+	public void setForcedOdd(Boolean forcedOdd) {
+		this.forcedOdd = forcedOdd;
+	}
+	
+	public Boolean getForcedOdd() {
+		return this.forcedOdd;
 	}
 
 	public void setInterpolation(Object interpolation) {
@@ -69,6 +81,9 @@ public class VideoHandle {
 
 	public void setWidth(int width) {
 		this.width = width;
+	}
+	public int getWidth(){
+		return this.width;
 	}
 
 	public void setOutFile(String outFile) {
