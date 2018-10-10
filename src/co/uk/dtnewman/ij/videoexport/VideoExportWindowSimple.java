@@ -131,7 +131,7 @@ public class VideoExportWindowSimple extends JFrame {
 		comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<>(co.uk.dtnewman.ij.videoexport.VideoExportGeneric.formatArray));
 		comboBox.setBounds(90, 22, 200, 20);
-		comboBox.setSelectedIndex(3);
+		comboBox.setSelectedIndex(2);
 		contentPane.add(comboBox);
 
 		JLabel lblFormat = new JLabel("Format");

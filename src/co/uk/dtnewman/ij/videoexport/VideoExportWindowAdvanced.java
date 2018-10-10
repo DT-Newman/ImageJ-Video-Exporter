@@ -393,6 +393,10 @@ public class VideoExportWindowAdvanced extends JFrame {
 				}
 		}
 		pixelTypeArray = alist.toArray(new PixelFormat.Type[alist.size()]);
+	 }
+		else {
+			pixelTypeArray = PixelFormat.Type.values();
+		}
 		int size = pixelTypeArray.length;
 		pixelFormatArray = new String[size];
 		for(int i = 0; i < size; i++) {
@@ -401,12 +405,7 @@ public class VideoExportWindowAdvanced extends JFrame {
 				defaultPixelFormatIndex = i; 
 			}
 		}
-	 }
-	 else {
-		 pixelTypeArray = new PixelFormat.Type[]{io.humble.video.PixelFormat.Type.PIX_FMT_YUV420P};
-		 pixelFormatArray = new String[]{io.humble.video.PixelFormat.Type.PIX_FMT_YUV420P.name()};
-		 defaultPixelFormatIndex = 0;
-	 }
+	 
 		
 		comboPixelFormat.setModel(new DefaultComboBoxModel<>(pixelFormatArray));
 		comboPixelFormat.setSelectedIndex(defaultPixelFormatIndex);
