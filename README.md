@@ -5,9 +5,9 @@ Video Exporter for ImageJ utilizing the humble-video
 
 ## PLUGINS > DN_TOOLS > Video Export
 
-I wrote this plugin out of frustration with the fact that a lot of video export plugins for imagej, export videos using codecs which are often impractical (RAW - large files) or likely to cause compatibility issues. This is despite the fact that the underlying library used often implements more convenient choices such as H.264.
+I wrote this plugin to allow me to export videos from ImageJ with H264 encoding via humble-video.
 
-This aim of this plugin is to expose as many of the options provided by the underlying video library to the user as possible. Caution : While the user should be prevented from making option combinations which will result in errors in video exportation, they are however still quite likely.
+This plugin aims to expose as many of the options provided by the underlying video library to the user as possible. Caution : While the user should be prevented from making option combinations which will result in errors in video exportation, they are however still quite likely.
 
 There is a simple export option, which provides a smaller sub-set of options.
 
