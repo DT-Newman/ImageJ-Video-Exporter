@@ -38,7 +38,7 @@ Windows | x86_64-w64-migw32 | i686-w64-migw32
 Mac OS X | x86_64-apple-darwin12 | i686-apple-darwin-12
 Linux | x86_64-pc-linux-gnu6 | i686-pc-linux-gnu6
 
-
+You can find the prebuilt jar files here: https://search.maven.org/search?q=g:io.humble
 
 # Exporting a video
 
